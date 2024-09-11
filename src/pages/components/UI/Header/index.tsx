@@ -9,7 +9,7 @@ export function Header() {
         <header>
             <div className={style.headerContainter}>
                 <div className={style.headerContent}>
-                    <Link href='/'>
+                    <Link href='/home'>
                         <FiList color='#f0f0f0' size={20}/>
                     </Link>
 
