@@ -1,0 +1,69 @@
+.container{
+    max-width: 720px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.containerHeader{
+    display: flex;
+    flex-direction: column;
+
+    h1{
+        color: var(--white);
+    }
+
+    p{
+        padding: 6px;
+        color: var(--gray-100);
+        font-size: medium;
+    }
+}
+
+.menu{
+    padding: 10px;
+    
+    button{
+        & + button{
+            margin-left: 1rem;
+        }
+    }
+
+    /* Botão da lista */
+    .list_button {
+        padding: 10px 20px;
+        background-color: var(--green-900);
+        color: var(--dark-700);
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Botão de cadastro */
+    .cad_button {
+        padding: 10px 20px;
+        background-color: var(--red-900);
+        color: var(--dark-700);
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Efeitos :hover para ambos os botões */
+    .list_button:hover {
+        background-color: var(--green-700); /* Muda a cor no hover */
+        transform: scale(1.05); /* Aumenta ligeiramente o botão */
+    }
+
+    .cad_button:hover {
+        background-color: var(--red-700); /* Muda a cor no hover */
+        transform: scale(1.05); /* Aumenta ligeiramente o botão */
+    }
+
+}
