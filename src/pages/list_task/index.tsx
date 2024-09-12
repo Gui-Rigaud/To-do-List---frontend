@@ -14,12 +14,12 @@ interface HomeProps {
 }
 
 export type TaskProps = {
-    id: String,
-    nome: String,
-    description: String,
+    id: string,
+    nome: string,
+    description: string,
     done: boolean,
-    finish_date: String,
-    priority: String,
+    finish_date: string,
+    priority: string,
 }
 
 export default function ListTask({ orders }: HomeProps) {
