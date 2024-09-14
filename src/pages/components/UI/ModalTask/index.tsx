@@ -1,19 +1,23 @@
-import styles from './style.module.scss'
-import Modal from 'react-modal'
+// components/TaskModal.tsx
+import React from 'react';
+import Modal from 'react-modal';
+import { FiX } from 'react-icons/fi';
+import styles from './style.module.scss'; // Adapte o caminho e o nome conforme necessário
 
-import { FiX } from 'react-icons/fi'
-import { TaskProps } from '../../../list_task';
-import { useState } from 'react';
-
-interface ModalOrderProps {
-    isOpen: boolean;
-    onRequestClose: () => void;
-    task: TaskProps[];
+interface TaskProps {
+    id: String;
+    nome: String;
+    description: String;
+    done: boolean;
 }
 
-export function ModalTask({ isOpen, onRequestClose, task}: ModalOrderProps) {
+interface TaskModalProps {
+    isOpen: boolean;
+    onRequestClose: () => void;
+    task: TaskProps | null | undefined;
+}
 
-    const [isGreen, setIsGreen] = useState(true);
+export function TaskModal({ isOpen, onRequestClose, task }: TaskModalProps) {
 
     const customStyles = {
         content: {
@@ -43,38 +47,14 @@ export function ModalTask({ isOpen, onRequestClose, task}: ModalOrderProps) {
             </button>
 
             <div className={styles.container}>
-
-                <h2>Detalhes do pedido</h2>
-                <span className={styles.table}>
-                    Tarefa <strong>1</strong>
-                </span>
-
-                {task.map(item => (
-                    <section key={"1"} className={styles.containerItem}>
-                        <span>Lavar a louça</span>
-                        <span className={styles.description}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</span>
-                        {/* Se isGreen for true, o botão será verde, senão, vermelho */}
-                        <button
-                            style={{
-                                backgroundColor: isGreen ? 'green' : 'red',
-                                color: 'white',
-                                padding: '10px 20px',
-                                border: 'none',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                            }}
-                            onClick={() => setIsGreen(!isGreen)} // Alterna a variável entre true e false ao clicar
-                        >
-                            {isGreen ? 'Botão Verde' : 'Botão Vermelho'}
-                        </button>
-                    </section>
-                ))}
-
-                <button className={styles.buttonOrder} >
-                    Concluir tarefa
-                </button>
-
+                <span className={styles.table}><h2>{task?.nome}</h2></span>
+                <section className={styles.containerItem}>
+                    <span className={styles.description}>{task?.description}</span>
+                    <p>Status: {task?.done ? 'Concluída' : 'Pendente'}</p>
+                </section>
             </div>
         </Modal>
-    )
-}
+    );
+};
+
+export default TaskModal;

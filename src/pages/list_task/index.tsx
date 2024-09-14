@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import Head from "next/head"
 import { Header } from "../components/UI/Header"
@@ -7,7 +7,9 @@ import styles from './style.module.scss'
 import { FiRefreshCcw } from "react-icons/fi"
 
 import Modal from 'react-modal'
-import { ModalTask } from "../components/UI/ModalTask"
+import TaskModal from "../components/UI/ModalTask"
+import { setupAPIClient } from "@/services/api"
+import { AuthContext } from "@/contexts/AuthContext"
 
 interface HomeProps {
     orders: TaskProps[];
@@ -22,55 +24,40 @@ export type TaskProps = {
     priority: string,
 }
 
-export default function ListTask({ orders }: HomeProps) {
-    const [orderList, setOrderList] = useState(orders || []);
+export default function ListTask({ orders: tasks }: HomeProps) {
+    const [taskList, setTaskList] = useState(tasks || []);
+    const { user } = useContext(AuthContext)
 
-    const [modalItem, setModalItem] = useState<TaskProps[] | any>();
+    const [modalItem, setModalItem] = useState<TaskProps | null>();
     const [modalVisible, setModalVisible] = useState(false);
 
-    function handleCloseModal(){
+    function handleCloseModal() {
         setModalVisible(false);
     }
 
-    // async function handleOpenModalView(id: String) {
-        
-    //     const apiClient = setupAPIClient();
+    const openModal = (task: TaskProps) => {
+        setModalItem(task);
+        setModalVisible(true);
+    };
 
-    //     const response = await apiClient.get('/order/detail', {
-    //         params:{
-    //             order_id: id,
-    //         }
-    //     });
+    async function handleRefreshTasks() {
+        const apiClient = setupAPIClient();
 
-    //     setModalItem(response.data);
-    //     setModalVisible(true);
-    // }
+        const response = await apiClient.get('/membro/tarefa', {
+            params: {
+                member_id: user?.id
+            }
+        })
 
-    // async function handleFinishItem(id: String){
-    //     const apiClient = setupAPIClient();
-    //     await apiClient.put('/order/conclude', {
-    //         order_id: id,
-    //     });
-
-    //     const response = await apiClient.get('order/list');
-
-    //     setOrderList(response.data);
-    //     setModalVisible(false);
-    // }
-
-    // async function handleRefreshOrders() {
-    //     const apiClient = setupAPIClient();
-
-    //     const response = await apiClient.get('/order/list')
-    //     setOrderList(response.data);
-    // }
+        setTaskList(response.data);
+    }
 
     Modal.setAppElement('#__next');
 
     return (
         <>
             <Head>
-                <title>Painel - Sujeito Pizzaria</title>
+                <title>Listagem de Tarefas</title>
             </Head>
 
             <Header></Header>
@@ -81,59 +68,40 @@ export default function ListTask({ orders }: HomeProps) {
                     <div className={styles.containerHeader}>
                         <h1>Suas tarefas</h1>
 
-                        <button>
+                        <button onClick={handleRefreshTasks}>
                             <FiRefreshCcw size={25} color="#3fffa3" />
                         </button>
                     </div>
 
                     <article className={styles.listOrders}>
 
-                        {/* {orderList.length === 0 && (
+                        {taskList.length === 0 && (
                             <span className={styles.emptyList}>
-                                Não há pedidos abertos...
+                                Não há nenhuma tarefa...
                             </span>
-                        )} */}
+                        )}
 
-                        {/* {orderList.map((item, index) => {
+                        {taskList.map((item, index) => {
                             return (
-                                <section key={String(item.id)} className={styles.orderItem}>
-                                    <button onClick={() => { handleOpenModalView(item.id) }}>
+                                <section key={index} className={styles.orderItem}>
+                                    <button onClick={() => openModal(item)} className="task-button">
                                         <div className={styles.tag}></div>
-                                        <span>Mesa {item.table}</span>
+                                        <span>Tarefa {index + 1}</span>
                                     </button>
                                 </section>
                             )
-                        })} */}
-                            <section key={"1"} className={styles.orderItem}>
-                                        <button className="task-button">
-                                            <div className={styles.tag}></div>
-                                            <span>Tarefa 1</span>
-                                        </button>
-                            </section>
+                        })}
                     </article>
                 </main>
 
                 {modalVisible && (
-                    <ModalTask
-                    isOpen={modalVisible}
-                    onRequestClose={handleCloseModal}
-                    task={modalItem}
+                    <TaskModal
+                        isOpen={modalVisible}
+                        onRequestClose={handleCloseModal}
+                        task={modalItem}
                     />
                 )}
             </div>
         </>
     )
 }
-
-// export const getServerSideProps = canSSRAuth(async (ctx) => {
-
-//     const apiClient = setupAPIClient(ctx);
-
-//     const response = await apiClient.get('/order/list');
-
-//     return {
-//         props: {
-//             orders: response.data
-//         }
-//     }
-// })
