@@ -2,8 +2,12 @@ import Link from 'next/link'
 import style from './style.module.scss'
 
 import { FiLogOut, FiList } from 'react-icons/fi'
+import { useContext } from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
 
 export function Header() {
+
+    const {signOut, user} = useContext(AuthContext)
 
     return (
         <header>
@@ -17,11 +21,11 @@ export function Header() {
 
                         <div className={style.userInfo}>
                             <label>Signed as:</label>
-                            <h4></h4>
+                            <h4>{user?.nome}</h4>
                         </div>
 
                         <label>Sair</label>
-                        <button>
+                        <button onClick={signOut}>
                             <FiLogOut color='#FFF' size={20} />
                         </button>
                     </nav>
