@@ -31,8 +31,12 @@
 
 .description{
     margin-top: 0.5rem;
-    //quebrar linha
     word-break: break-all;
+}
+
+.priority{
+    margin-top: 1rem;
+    color: var(--green-900)
 }
 
 .buttonOrder{
