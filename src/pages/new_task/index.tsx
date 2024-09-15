@@ -8,8 +8,6 @@ function TaskForm() {
     const [formData, setFormData] = useState({
         nome: '',
         description: '',
-        done: false,
-        finish_date: '',
         priority: 'Baixa',
     });
 
@@ -51,18 +49,6 @@ function TaskForm() {
                             value={formData.description}
                             onChange={handleChange}
                             placeholder="Digite a descrição da tarefa"
-                            required
-                        />
-                    </div>
-
-                    <div className={style.form_group}>
-                        <label htmlFor="finish_date">Data de término</label>
-                        <input
-                            type="date"
-                            id="finish_date"
-                            name="finish_date"
-                            value={formData.finish_date}
-                            onChange={handleChange}
                             required
                         />
                     </div>
