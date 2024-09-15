@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 import Head from "next/head"
 import { Header } from "../components/UI/Header"
@@ -33,6 +33,10 @@ export default function ListTask({ orders: tasks }: HomeProps) {
 
     const [modalItem, setModalItem] = useState<TaskProps | null>();
     const [modalVisible, setModalVisible] = useState(false);
+
+    useEffect(() => {
+        handleRefreshTasks();
+    })
 
     function handleCloseModal() {
         setModalVisible(false);
