@@ -4,12 +4,13 @@ import Head from "next/head"
 import { Header } from "../components/UI/Header"
 
 import styles from './style.module.scss'
-import { FiRefreshCcw } from "react-icons/fi"
+import { FiRefreshCcw, FiPlusCircle, FiTrash, FiEdit } from "react-icons/fi"
 
 import Modal from 'react-modal'
 import TaskModal from "../components/UI/ModalTask"
 import { setupAPIClient } from "@/services/api"
 import { AuthContext } from "@/contexts/AuthContext"
+import Link from "next/link"
 
 interface HomeProps {
     orders: TaskProps[];
@@ -33,6 +34,7 @@ export default function ListTask({ orders: tasks }: HomeProps) {
 
     function handleCloseModal() {
         setModalVisible(false);
+        handleRefreshTasks();
     }
 
     const openModal = (task: TaskProps) => {
@@ -71,9 +73,13 @@ export default function ListTask({ orders: tasks }: HomeProps) {
                         <button onClick={handleRefreshTasks}>
                             <FiRefreshCcw size={25} color="#3fffa3" />
                         </button>
+
+                        <Link href="/new_task" className={styles.addTask}>
+                            <FiPlusCircle size={32} color="#3fffa3" />
+                        </Link>
                     </div>
 
-                    <article className={styles.listOrders}>
+                    <article className={styles.listTasks}>
 
                         {taskList.length === 0 && (
                             <span className={styles.emptyList}>
@@ -83,14 +89,25 @@ export default function ListTask({ orders: tasks }: HomeProps) {
 
                         {taskList.map((item, index) => {
                             return (
-                                <section key={index} className={styles.orderItem}>
+                                <section key={index} className={styles.taskItem}>
                                     <button onClick={() => openModal(item)} className="task-button">
                                         <div className={styles.tag}></div>
                                         <span>Tarefa {index + 1}</span>
                                     </button>
+
+                                    <div>
+                                        <Link href="/edit_task">
+                                            <FiEdit size={25} color="#3fffa3" style={{ marginRight: "0rem" }} />
+                                        </Link>
+
+                                        <button className="del-button">
+                                            <FiTrash size={25} color="#FF3F48" style={{ marginRight: "1rem" }} />
+                                        </button>
+                                    </div>
                                 </section>
                             )
                         })}
+
                     </article>
                 </main>
 

@@ -1,3 +1,9 @@
+.modal_header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .container{
     width: 620px;
     background-color: var(--dark-700);
