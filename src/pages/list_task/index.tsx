@@ -11,6 +11,7 @@ import TaskModal from "../components/UI/ModalTask"
 import { setupAPIClient } from "@/services/api"
 import { AuthContext } from "@/contexts/AuthContext"
 import Link from "next/link"
+import EditTask from "../edit_task"
 
 interface HomeProps {
     orders: TaskProps[];
@@ -27,7 +28,7 @@ export type TaskProps = {
 
 export default function ListTask({ orders: tasks }: HomeProps) {
     const [taskList, setTaskList] = useState(tasks || []);
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
 
     const [modalItem, setModalItem] = useState<TaskProps | null>();
     const [modalVisible, setModalVisible] = useState(false);
@@ -96,7 +97,10 @@ export default function ListTask({ orders: tasks }: HomeProps) {
                                     </button>
 
                                     <div>
-                                        <Link href="/edit_task">
+                                        <Link href={{
+                                            pathname: '/edit_task',
+                                            query: item,
+                                        }} as={`/edit_task/${item.nome}`}>
                                             <FiEdit size={25} color="#3fffa3" style={{ marginRight: "0rem" }} />
                                         </Link>
 

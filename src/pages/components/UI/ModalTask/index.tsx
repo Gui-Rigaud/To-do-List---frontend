@@ -11,6 +11,7 @@ interface TaskProps {
     nome: String;
     description: String;
     done: boolean;
+    priority: String;
 }
 
 interface TaskModalProps {
@@ -79,6 +80,7 @@ export function TaskModal({ isOpen, onRequestClose, task }: TaskModalProps) {
                 <span className={styles.table}><h2>{task?.nome}</h2></span>
                 <section className={styles.containerItem}>
                     <span className={styles.description}>{task?.description}</span>
+                    <span className={styles.priority}>Prioridade: <strong>{task?.priority}</strong></span>
                 </section>
             </div>
         </Modal>
