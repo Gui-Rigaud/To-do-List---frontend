@@ -9,6 +9,7 @@ import Head from 'next/head';
 
 import { Header } from '../components/UI/Header';
 import { useRouter } from 'next/router';
+import { FiTrash } from 'react-icons/fi';
 
 interface EditProps {
     taskData: TaskProps;
@@ -74,14 +75,14 @@ function EditTask() {
                 description: `${formData.description}`,
                 priority: `${formData.priority}`
             }, {
-                params:{
+                params: {
                     task_id: `${taskData.id}`
                 }
             })
 
-            if(formData.done == true){
+            if (formData.done == true) {
                 await apiClient.put('/tarefa/end', null, {
-                    params:{
+                    params: {
                         task_id: `${taskData.id}`
                     }
                 })
@@ -96,16 +97,42 @@ function EditTask() {
             console.log(erro);
             toast.error("Erro ao editar", { theme: "dark" })
         }
-    };
+    }
+
+    async function handleDeleteTask() {
+        const apiClient = setupAPIClient();
+
+        try{
+            await apiClient.delete('/tarefa/remove', {
+                params:{
+                    task_id: `${taskData.id}`
+                }
+            })
+
+            toast.success("Tarefa excluída com sucesso!", {theme: "dark"})
+
+            router.push('/list_task')
+        }catch(erro){
+            console.log(erro);
+            toast.error("Erro ao tentar deletar tarefa", {theme: "dark"})
+        }
+    }
 
     return (
-        <>  
+        <>
             <Head>
                 <title>Editar tarefa</title>
             </Head>
             <Header />
             <div className={style.form_container}>
-                <h2>Editar Tarefa</h2>
+                <div className={style.form_header}>
+                    <h2>Editar Tarefa</h2>
+
+                    <button className={style.delIcon} onClick={handleDeleteTask}>
+                        <FiTrash size={32} color='#FF3F48' />
+                    </button>
+                </div>
+
                 <form onSubmit={handleSubmit}>
 
                     <div className={style.form_group}>

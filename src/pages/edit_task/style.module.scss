@@ -7,17 +7,31 @@
     border-radius: 10px;
     color: white;
 
-    h2 {
-        text-align: center;
-        margin-bottom: 20px;
-        color: var(--red-700)
+    .form_header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--red-700)
+        }
+
+        .delIcon{
+            background-color: transparent;
+            border: transparent;
+            position: relative;
+            left: 28%;
+        }
     }
 }
 
 .form_group {
     margin-bottom: 15px;
 
-    label{
+    label {
         display: block;
         margin-bottom: 5px;
         font-size: 16px;
