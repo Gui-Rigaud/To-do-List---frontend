@@ -12,6 +12,7 @@ import { setupAPIClient } from "@/services/api"
 import { AuthContext } from "@/contexts/AuthContext"
 import Link from "next/link"
 import EditTask from "../edit_task"
+import { toast } from "react-toastify"
 
 interface HomeProps {
     orders: TaskProps[];
@@ -53,6 +54,25 @@ export default function ListTask({ orders: tasks }: HomeProps) {
         })
 
         setTaskList(response.data);
+    }
+
+    async function handleDeleteTask(task_id: String){
+        const apiClient = setupAPIClient();
+
+        try{
+            await apiClient.delete('/tarefa/remove', {
+                params:{
+                    task_id: `${task_id}`
+                }
+            })
+
+            toast.success("Tarefa excluída com sucesso!", {theme: "dark"})
+
+            handleRefreshTasks();
+        }catch(erro){
+            console.log(erro);
+            toast.error("Erro ao tentar deletar tarefa", {theme: "dark"})
+        }
     }
 
     Modal.setAppElement('#__next');
@@ -104,7 +124,7 @@ export default function ListTask({ orders: tasks }: HomeProps) {
                                             <FiEdit size={25} color="#3fffa3" style={{ marginRight: "0rem" }} />
                                         </Link>
 
-                                        <button className="del-button">
+                                        <button className="del-button" onClick={() => handleDeleteTask(item.id)}>
                                             <FiTrash size={25} color="#FF3F48" style={{ marginRight: "1rem" }} />
                                         </button>
                                     </div>
