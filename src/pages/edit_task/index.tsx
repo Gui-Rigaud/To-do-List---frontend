@@ -5,11 +5,10 @@ import style from './style.module.scss';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { Switch } from '@mui/material';
+import Head from 'next/head';
 
 import { Header } from '../components/UI/Header';
-import { AuthContext } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
-import { formToJSON } from 'axios';
 
 interface EditProps {
     taskData: TaskProps;
@@ -100,7 +99,10 @@ function EditTask() {
     };
 
     return (
-        <>
+        <>  
+            <Head>
+                <title>Editar tarefa</title>
+            </Head>
             <Header />
             <div className={style.form_container}>
                 <h2>Editar Tarefa</h2>
